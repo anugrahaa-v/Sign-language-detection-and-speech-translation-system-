@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Language Translator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- MediaPipe Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1 class="app-title">Sign Language Translator</h1>
+            <div class="status-badge" id="status-badge">
+                Waiting for gesture...
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="camera-section">
+                <div class="camera-container">
+                    <video id="input_video" class="input_video" style="display: none;"></video>
+                    <canvas id="output_canvas" class="output_canvas" width="1280" height="720"></canvas>
+                </div>
+            </div>
+
+            <div class="output-section">
+                <div class="output-card">
+                    <h2>Translated Sentence</h2>
+                    <div class="sentence-box" id="sentence-box">
+                        <span class="placeholder">Start signing...</span>
+                    </div>
+
+                    <div class="controls">
+                        <button id="clear-btn" class="btn btn-secondary">Clear</button>
+                        <button id="speak-btn" class="btn btn-primary">Speak</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
