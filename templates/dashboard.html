@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+
+<div class="dashboard">
+    <h1>Admin Dashboard</h1>
+
+    <a href="/config" class="btn">Configure Gestures</a>
+    <a href="/index" class="btn primary">Capture Sign Language</a>
+    <a href="/logout" class="btn logout">Logout</a>
+</div>
+
+</body>
+</html>
