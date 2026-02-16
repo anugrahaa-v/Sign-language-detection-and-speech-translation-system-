@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gesture Configuration</title>
+    <style>
+        /* Base Styles */
+        body {
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Consolas, monospace;
+            color: #e5e7eb;
+        }
+
+        /* Main Container */
+        .config-box {
+            background: rgba(30, 41, 59, 0.95);
+            width: 800px; /* Slightly wider for controls */
+            height: 85vh;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        h2 {
+            color: #38bdf8;
+            margin: 0;
+        }
+
+        /* Scrollable Area */
+        #gesture-container {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        /* Individual Gesture Card */
+        .gesture-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: transform 0.2s;
+        }
+
+        .gesture-card:hover {
+            border-color: #38bdf8;
+        }
+
+        .card-header {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        /* Inputs */
+        input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: inherit;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #38bdf8;
+        }
+
+        .input-name { flex: 2; }
+        .input-priority { flex: 1; width: 60px; }
+
+        /* Finger Toggles Grid */
+        .fingers-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+        }
+
+        .finger-toggle {
+            cursor: pointer;
+            padding: 8px;
+            text-align: center;
+            background: #334155;
+            border-radius: 6px;
+            font-size: 12px;
+            user-select: none;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        /* Active/Inactive States */
+        .finger-toggle.active {
+            background: rgba(16, 185, 129, 0.2); /* Green tint */
+            color: #34d399;
+            border-color: #34d399;
+            font-weight: bold;
+        }
+
+        .finger-toggle:hover {
+            filter: brightness(1.2);
+        }
+
+        /* Buttons */
+        .actions-row {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            border: none;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-save { background: linear-gradient(135deg, #38bdf8, #818cf8); color: white; }
+        .btn-add { background: #334155; color: #e2e8f0; }
+        .btn-delete { background: #ef4444; color: white; padding: 8px 12px; font-size: 12px;}
+        
+        .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="config-box">
+    <div class="header-row">
+        <h2>Gesture Config</h2>
+        <button onclick="addNewGesture()" class="btn btn-add">+ Add New</button>
+    </div>
+
+    <div id="gesture-container"></div>
+
+    <div class="actions-row">
+        <a href="/dashboard" class="btn" style="background: transparent; border: 1px solid #475569;">Back</a>
+        <button onclick="saveConfiguration()" class="btn btn-save">Save Changes</button>
+    </div>
+</div>
+
+<script>
+    // Global state to hold gestures
+    let gestureData = [];
+
+    // 1. Fetch Data on Load
+    fetch('/api/gestures')
+      .then(r => r.json())
+      .then(d => {
+        gestureData = d.gestures || [];
+        renderGestures();
+      })
+      .catch(err => {
+        console.error("Error fetching data:", err);
+        // Fallback for demo if fetch fails
+        gestureData = [
+            { name: "Hello", priority: 10, fingers: { thumb: true, index: true, middle: true, ring: true, pinky: true } }
+        ];
+        renderGestures();
+      });
+
+    // 2. Render the UI
+    function renderGestures() {
+        const container = document.getElementById('gesture-container');
+        container.innerHTML = '';
+
+        gestureData.forEach((gesture, index) => {
+            const card = document.createElement('div');
+            card.className = 'gesture-card';
+            
+            // Generate Finger HTML
+            const fingerKeys = ['thumb', 'index', 'middle', 'ring', 'pinky'];
+            let fingersHtml = fingerKeys.map(finger => `
+                <div class="finger-toggle ${gesture.fingers[finger] ? 'active' : ''}" 
+                     onclick="toggleFinger(${index}, '${finger}')">
+                    ${finger.toUpperCase()}
+                </div>
+            `).join('');
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <input type="text" class="input-name" value="${gesture.name}" 
+                           onchange="updateField(${index}, 'name', this.value)" placeholder="Gesture Name">
+                    
+                    <input type="number" class="input-priority" value="${gesture.priority}" 
+                           onchange="updateField(${index}, 'priority', this.value)" placeholder="Prio">
+                    
+                    <button class="btn btn-delete" onclick="deleteGesture(${index})">X</button>
+                </div>
+                <div class="fingers-grid">
+                    ${fingersHtml}
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // 3. Update Logic
+    function toggleFinger(index, fingerName) {
+        // Toggle boolean
+        gestureData[index].fingers[fingerName] = !gestureData[index].fingers[fingerName];
+        renderGestures(); // Re-render to show color change
+    }
+
+    function updateField(index, field, value) {
+        // Convert priority to integer, leave name as string
+        gestureData[index][field] = field === 'priority' ? parseInt(value) : value;
+    }
+
+    // 4. Add / Delete Logic
+    function addNewGesture() {
+        gestureData.unshift({
+            name: "New Gesture",
+            priority: 1,
+            fingers: { thumb: false, index: false, middle: false, ring: false, pinky: false }
+        });
+        renderGestures();
+        // Scroll to top
+        document.getElementById('gesture-container').scrollTop = 0;
+    }
+
+    function deleteGesture(index) {
+        if(confirm("Delete this gesture?")) {
+            gestureData.splice(index, 1);
+            renderGestures();
+        }
+    }
+
+    // 5. Save Logic (POST to server)
+    function saveConfiguration() {
+        const payload = { gestures: gestureData };
+        
+        console.log("Saving...", payload);
+
+        // Replace with your actual endpoint
+        fetch('/api/gestures', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        })
+        .then(response => {
+            if(response.ok) {
+                alert("Configuration Saved Successfully!");
+            } else {
+                alert("Error saving configuration.");
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
