@@ -1,0 +1,103 @@
+{
+  "gestures": [
+    {
+      "fingers": {
+        "index": true,
+        "middle": true,
+        "pinky": false,
+        "ring": false,
+        "thumb": false
+      },
+      "name": "You are a good person",
+      "priority": 3
+    },
+    {
+      "fingers": {
+        "index": false,
+        "middle": true,
+        "pinky": false,
+        "ring": true,
+        "thumb": false
+      },
+      "name": "It is a nice place",
+      "priority": 4
+    },
+    {
+      "fingers": {
+        "index": true,
+        "middle": true,
+        "pinky": true,
+        "ring": true,
+        "thumb": true
+      },
+      "name": "good morning",
+      "priority": 10
+    },
+    {
+      "fingers": {
+        "index": false,
+        "middle": false,
+        "pinky": true,
+        "ring": true,
+        "thumb": false
+      },
+      "name": "No",
+      "priority": 9
+    },
+    {
+      "fingers": {
+        "index": false,
+        "middle": false,
+        "pinky": false,
+        "ring": false,
+        "thumb": true
+      },
+      "name": "Yes",
+      "priority": 8
+    },
+    {
+      "fingers": {
+        "index": true,
+        "middle": false,
+        "pinky": false,
+        "ring": false,
+        "thumb": false
+      },
+      "name": "You",
+      "priority": 7
+    },
+    {
+      "fingers": {
+        "index": false,
+        "middle": false,
+        "pinky": true,
+        "ring": false,
+        "thumb": false
+      },
+      "name": "I am",
+      "priority": 7
+    },
+    {
+      "fingers": {
+        "index": true,
+        "middle": false,
+        "pinky": true,
+        "ring": false,
+        "thumb": true
+      },
+      "name": "Love",
+      "priority": 6
+    },
+    {
+      "fingers": {
+        "index": false,
+        "middle": true,
+        "pinky": true,
+        "ring": true,
+        "thumb": false
+      },
+      "name": "Good",
+      "priority": 5
+    }
+  ]
+}
