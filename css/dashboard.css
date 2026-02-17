@@ -1,0 +1,64 @@
+body {
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.dashboard {
+    background: rgba(30, 41, 59, 0.85);
+    padding: 60px;
+    width: 420px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+}
+
+.dashboard h1 {
+    color: #38bdf8;
+    margin-bottom: 35px;
+    font-size: 26px;
+}
+
+.dashboard .btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 18px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #e5e7eb;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: all 0.25s ease;
+}
+
+.dashboard .btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.dashboard .primary {
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    color: #ffffff;
+    border: none;
+}
+
+.dashboard .primary:hover {
+    opacity: 0.92;
+}
+
+.dashboard .logout {
+    background: rgba(255, 0, 0, 0.12);
+    border: 1px solid rgba(255, 0, 0, 0.35);
+    color: #ffb4b4;
+}
+
+.dashboard .logout:hover {
+    background: rgba(255, 0, 0, 0.2);
+}
+    
