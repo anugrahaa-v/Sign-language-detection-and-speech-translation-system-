@@ -1,1 +1,1 @@
-# Sign-language-detection-and-speech-translation-system-
+# Sign-language-detection-and-speech-translation-system
